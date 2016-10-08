@@ -1,7 +1,6 @@
 # coffeelint: disable=max_line_length
 
 gulp = require 'gulp'
-argv = require('yargs').argv
 webBuildTasks = require 'web-build-tasks'
 
 cdnEntries = [
