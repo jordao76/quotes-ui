@@ -24,6 +24,6 @@ cdnEntries = [
 
 webBuildTasks.define gulp,
   srcPath: './src'
-  destPath: argv.destPath or './public'
+  destPath: './dist/public'
   scriptPath: '/script'
   cdnEntries: cdnEntries
