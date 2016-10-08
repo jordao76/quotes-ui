@@ -1,0 +1,25 @@
+{
+  "name": "quotes-ui",
+  "description": "Quotes UI",
+  "main": "index.js",
+  "authors": [
+    "Rodrigo Jordao <rodrigo.jordao@gmail.com> (https://github.com/jordao76)"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "quotes"
+  ],
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.1.1",
+    "bootstrap": "^3.3.7"
+  }
+}
