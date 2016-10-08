@@ -1,20 +1,19 @@
 {
   "name": "quotes-ui",
+  "private": true,
   "version": "0.1.0",
   "description": "Quotes UI",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "keywords": [
     "quotes"
   ],
   "author": "Rodrigo Jordao <rodrigo.jordao@gmail.com> (https://github.com/jordao76)",
   "license": "MIT",
-  "dependencies": {
+  "devDependencies": {
     "bower": "^1.7.9",
     "coffee-script": "^1.11.1",
     "gulp": "^3.9.1",
-    "web-build-tasks": "0.0.5"
+    "web-build-tasks": "0.0.5",
+    "yargs": "^6.0.0"
   }
 }
