@@ -2,24 +2,7 @@
 
 $ = jQuery
 
-sampleQuotes = [
-  {
-    text: 'On two occasions I have been asked, "Pray, Mr. Babbage, if you put into
-      the machine wrong figures, will the right answers come out?" I am not able
-      rightly to apprehend the kind of confusion of ideas that could provoke such
-      a question.'
-    author: 'Charles Babbage'
-  }
-  {
-    text: 'Any sufficiently advanced technology is indistinguishable from magic.'
-    author: 'Arthur C. Clarke'
-  }
-  {
-    text: 'Perfection (in design) is achieved not when there is nothing more to
-      add, but rather when there is nothing more to take away.'
-    author: 'Antoine de Saint-Exupery'
-  }
-]
+any = (a) -> a[Math.floor Math.random() * a.length]
 
 adjustSize = (quote) ->
   quoteLength = quote.text.length
@@ -37,14 +20,19 @@ renderQuote = (quote) ->
   $('#quote').text quote.text
   $('#author').text quote.author
 
-getSampleQuote = ->
-  random = (n) -> Math.floor Math.random() * n
-  quote = sampleQuotes[random sampleQuotes.length]
-  renderQuote quote
-  scheduleGetQuote quote
+localQuotes = []
+getLocalQuote = ->
+  if localQuotes.length is 0
+    $.getJSON 'data/quotes.json', (quotes) ->
+      localQuotes = quotes
+      getLocalQuote()
+  else
+    quote = any localQuotes
+    renderQuote quote
+    scheduleGetQuote quote
 
 errorGettingQuote = ->
-  getSampleQuote()
+  getLocalQuote()
 
 getQuote = ->
   $.getJSON 'quotes/any', renderQuote
@@ -55,11 +43,23 @@ calculateTimeoutInMs = (quote) ->
   numWords = (txt) -> txt.split(/\s+/).length
   totalWords = numWords(quote.text) + numWords(quote.author)
   # typical reading speed is 200wpm (words per minute)
-  # use a minimum of 5s
-  Math.max 5000, (totalWords / 200.0) * 60 * 1000
+  # use a minimum of 5s, and add a 1s buffer
+  Math.max 5000, totalWords / 200.0 * 60 * 1000 + 1000
 
 scheduleGetQuote = (quote) ->
   window.setTimeout getQuote, calculateTimeoutInMs(quote)
 
+setupBackgrounds = ->
+  # Backgrounds are chromecast backgrounds from:
+  # https://github.com/dconnolly/chromecast-backgrounds
+  $.getJSON 'data/backgrounds.json', (backgrounds) ->
+    changeBackground = ->
+      bg = any(backgrounds)
+      $('body').css 'background-image', "url(#{bg.url})"
+      $('#footer').text if bg.author then "Photo by #{bg.author}" else ''
+    changeBackground()
+    window.setInterval changeBackground, 30000
+
 $ ->
+  setupBackgrounds()
   scheduleGetQuote text: $('#quote').text(), author: $('#author').text()
